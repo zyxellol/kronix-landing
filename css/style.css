@@ -1,4 +1,6 @@
-:root {
+html {
+    scroll-behavior: smooth;
+}:root {
     --bg-color: #0b0e01;
     --accent-color: #ccff00; /* Неоновий лайм */
     --text-white: #ffffff;
@@ -54,6 +56,47 @@ body {
 .nav-menu a:hover {
     color: var(--accent-color);
 }
+   /* Перетворюємо меню на повноекранну шторку */
+ .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Ховаємо меню праворуч за межі екрана */
+    width: 100%;  /* Меню на весь екран мобільного */
+    height: 100vh;
+    background-color: #0b0e01; /* Твоя змінна --bg-color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    transition: right 0.4s ease-in-out; /* Плавний виїзд */
+    z-index: 99;
+ }
+
+    /* Коли додаємо цей клас через JS, меню виїжджає */
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-menu a {
+        font-size: 24px; /* Збільшуємо посилання для зручності тапання пальцем */
+        margin: 0;
+    }
+
+    /* --- АНІМАЦІЯ БУРГЕРА В ХРЕСТИК --- */
+    /* Коли додається клас .open, перша смужка повертається на 45 градусів */
+    .burger-menu.open span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    /* Друга смужка зникає */
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    /* Третя смужка повертається в інший бік */
+    .burger-menu.open span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
 
 /* Buttons */
 .btn-small {
@@ -304,6 +347,34 @@ h2 {
     z-index: 1;
 }
 
+/* На комп'ютерах кнопка схована */
+.burger-menu {
+    display: none; /* Ховаємо на великих екранах */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 100; /* Щоб кнопка завжди була поверх меню */
+}
+
+.burger-menu span {
+    width: 100%;
+    height: 3px;
+    background-color: var(--text-white);
+    border-radius: 2px;
+    transition: all 0.3s ease; /* Для плавної анімації хрестика */
+}
+
+
+/* АДАПТИВНІСТЬ ДЛЯ МЕНЮ */
+@media (max-width: 768px) {
+    .burger-menu {
+        display: flex; /* Показуємо бургер на мобільних */
+    }
 /* На мобільних (де .steps-grid стає 1fr) ці лінії треба сховати */
 @media (max-width: 992px) {
     .step.has-arrow::after {
